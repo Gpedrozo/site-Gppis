@@ -221,6 +221,10 @@ h3 {
   padding: 60px 0;
 }
 
+.section.demo {
+  background: linear-gradient(145deg, rgba(17, 24, 47, 0.5), rgba(17, 24, 47, 0.8));
+}
+
 .section.accent {
   background: linear-gradient(145deg, rgba(31, 140, 243, 0.08), rgba(103, 232, 249, 0.06));
 }
@@ -242,6 +246,56 @@ h3 {
 
 .icon {
   font-size: 24px;
+}
+
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  align-items: center;
+}
+
+.demo-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 12px 0;
+}
+
+.link {
+  color: var(--accent-2);
+  text-decoration: underline;
+}
+
+.small {
+  font-size: 13px;
+}
+
+.demo-card {
+  min-height: 260px;
+}
+
+.list.numbered {
+  counter-reset: step;
+}
+
+.list.numbered li {
+  position: relative;
+  padding-left: 28px;
+}
+
+.list.numbered li::before {
+  counter-increment: step;
+  content: counter(step) '.';
+  position: absolute;
+  left: 0;
+  color: var(--accent-2);
+  font-weight: 700;
+}
+
+.btn.disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .section-split {

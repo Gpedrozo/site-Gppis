@@ -123,6 +123,43 @@
         </div>
       </section>
 
+      <section id="demo" class="section demo">
+        <div class="container demo-grid">
+          <div>
+            <p class="eyebrow">Experimente agora</p>
+            <h2>PCM Estratégico (repositório público)</h2>
+            <p class="muted">
+              Acesse a demonstração do sistema PCM Estratégico hospedado no repositório público
+              <a class="link" href="https://github.com/Gpedrozo/pcm-estrategico" target="_blank" rel="noreferrer">
+                Gpedrozo/pcm-estrategico
+              </a>. Permitimos até 3 acessos iniciais ao link de teste; após isso, o botão é
+              bloqueado e você pode falar com o time para liberar mais cadastros.
+            </p>
+            <ul class="pill-list">
+              <li>Cadastro em múltiplos módulos</li>
+              <li>Limite de 3 tentativas no ambiente de teste</li>
+              <li>Integração OEM e manutenção</li>
+            </ul>
+            <div class="demo-actions">
+              <a id="demo-link" class="btn primary" href="https://github.com/Gpedrozo/pcm-estrategico" target="_blank" rel="noreferrer">
+                Acessar demo (3 usos)
+              </a>
+              <button id="demo-reset" class="btn ghost" type="button">Reiniciar limite local</button>
+            </div>
+            <p id="demo-status" class="muted small"></p>
+          </div>
+          <div class="card glass demo-card">
+            <h3>Como funciona o limite</h3>
+            <ol class="list numbered">
+              <li>Clique em “Acessar demo” para abrir o sistema.</li>
+              <li>Você poderá clicar até 3 vezes (contagem local).</li>
+              <li>Ao exceder, o botão é bloqueado e orientamos contato comercial.</li>
+            </ol>
+            <div class="badge">Controle local • sem backend</div>
+          </div>
+        </div>
+      </section>
+
       <section id="oem" class="section accent">
         <div class="container section-split">
           <div>
@@ -296,5 +333,44 @@
         <span class="muted">Powered by GPPIS • Indústria 4.0</span>
       </div>
     </footer>
+    <script>
+      (() => {
+        const LIMIT = 3;
+        const link = document.getElementById('demo-link');
+        const resetBtn = document.getElementById('demo-reset');
+        const status = document.getElementById('demo-status');
+        const key = 'gppis_demo_access_count';
+
+        const render = () => {
+          const count = Number(localStorage.getItem(key) || '0');
+          const remaining = Math.max(LIMIT - count, 0);
+          link.textContent = remaining > 0 ? `Acessar demo (${remaining} usos)` : 'Limite atingido';
+          link.classList.toggle('disabled', remaining === 0);
+          link.setAttribute('aria-disabled', remaining === 0 ? 'true' : 'false');
+          status.textContent =
+            remaining === 0
+              ? 'Limite local de 3 acessos atingido. Fale com o time para liberar mais cadastros.'
+              : `Você ainda pode abrir o link de teste ${remaining} vez(es).`;
+        };
+
+        link?.addEventListener('click', (event) => {
+          const count = Number(localStorage.getItem(key) || '0');
+          if (count >= LIMIT) {
+            event.preventDefault();
+            render();
+            return;
+          }
+          localStorage.setItem(key, String(count + 1));
+          render();
+        });
+
+        resetBtn?.addEventListener('click', () => {
+          localStorage.removeItem(key);
+          render();
+        });
+
+        render();
+      })();
+    </script>
   </body>
 </html>
